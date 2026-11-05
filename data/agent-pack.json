@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "environment": "simulation",
+  "defaults": { "tool_policy": "deny_by_default", "secrets": "none", "external_side_effects": false, "training_data": "synthetic" },
+  "agents": [
+    {"id":"hermes-direction","unit":"holding","role":"Chefia de gabinete","runtime_candidate":"Hermes Agent","owner_role":"Presidência humana","inputs":["brief","portfolio_summary"],"outputs":["mandate_draft","council_advice"],"scopes":["brief:read","mandate:draft"],"approval":"human_council"},
+    {"id":"diana-risk","unit":"admin","role":"Revisão de risco","runtime_candidate":"Hermes Agent","owner_role":"Responsável de risco","inputs":["mission_summary","policy_snapshot"],"outputs":["risk_advice"],"scopes":["policy:read","risk:draft"],"approval":"human_council"},
+    {"id":"commerce-planner","unit":"commerce","role":"Planeamento comercial","runtime_candidate":"Hermes Agent","owner_role":"Responsável de Comércio Digital","inputs":["synthetic_catalog","campaign_goal"],"outputs":["campaign_request"],"scopes":["catalog:read","campaign:draft"],"approval":"unit_owner"},
+    {"id":"growth-studio","unit":"shared-growth","role":"Planeamento de campanha","runtime_candidate":"Paperclip adapter trial","owner_role":"Responsável de Growth","inputs":["campaign_request","brand_guide"],"outputs":["creative_brief","stop_conditions"],"scopes":["brand:read","creative:draft"],"approval":"human_council"},
+    {"id":"service-desk","unit":"shared-service","role":"Triagem e encaminhamento","runtime_candidate":"OpenClaw adapter trial","owner_role":"Responsável de Atendimento","inputs":["synthetic_ticket"],"outputs":["category","reply_draft"],"scopes":["ticket:read","reply:draft"],"approval":"human_supervisor"},
+    {"id":"finance-control","unit":"admin","role":"Controlo orçamental","runtime_candidate":"Deterministic policy service","owner_role":"Responsável financeiro humano","inputs":["campaign_request","budget_snapshot"],"outputs":["policy_decision"],"scopes":["budget:read","policy:evaluate"],"approval":"dual_human"}
+  ]
+}
+

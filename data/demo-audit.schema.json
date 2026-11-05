@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Genesis demo audit export v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema","simulation","scenario","status","cap_cents","proposed_cents","spent_cents","human_votes","events"],
+  "properties": {
+    "schema": {"const":"genesis-demo/v1"},
+    "simulation": {"const":true},
+    "scenario": {"enum":["normal","over","restricted"]},
+    "status": {"enum":["running","voting","blocked","rejected","done"]},
+    "cap_cents": {"type":"integer","minimum":0},
+    "proposed_cents": {"type":"integer","minimum":0},
+    "spent_cents": {"type":"integer","minimum":0},
+    "human_votes": {"type":"array","minItems":2,"maxItems":2,"items":{"enum":[null,"yes","no"]}},
+    "events": {"type":"array","items":{
+      "type":"object","additionalProperties":false,"required":["seq","type","detail"],
+      "properties":{"seq":{"type":"integer","minimum":1},"type":{"type":"string","minLength":1},"detail":{"type":"string","minLength":1}}
+    }}
+  }
+}
+

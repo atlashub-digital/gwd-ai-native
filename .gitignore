@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+node_modules/
+*.log
+private/
+evidence/local/
+build/
+dist/vendor/
+dist/index.html
+dist/documentacao.html
+dist/privacidade.html
+dist/gwd-model.json
+

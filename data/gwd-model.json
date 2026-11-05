@@ -1,0 +1,76 @@
+{
+  "version": "0.3",
+  "asOf": "2026-11-05",
+  "currency": "BRL",
+  "status": "Hipóteses internas de planeamento. Nenhum volume, contrato, rendimento ou captação está comprovado por este modelo.",
+  "unit": "Valores monetários em reais; horas por mês; receitas em mês de regime, não promessa para os primeiros 90 dias.",
+  "calculation": {
+    "revenue": "sum(quantity * price)",
+    "directDelivery": "sum(quantity * directCost)",
+    "paymentFees": "sum(quantity * price * paymentRate)",
+    "taxReserve": "revenue * taxReserveRate",
+    "refundReserve": "revenue * refundReserveRate",
+    "cashOperatingResult": "revenue - directDelivery - paymentFees - taxReserve - refundReserve - sum(fixedCash)",
+    "economicResult": "cashOperatingResult - founderUnpaidHours * founderHourlyValue - existingAssetsAllocation",
+    "cash90": "(sum(fixedCash) * 3 + setupCash + workingCapital) * (1 + contingencyRate)",
+    "founderHoursAvailable": "100 hours/month across sales, management, service and learning; no assumption of full-time unpaid employees",
+    "capacityHours": "sum(quantity * coordinationHours) + sharedHours",
+    "cashAtRamp": "sum(monthlyRealization * monthlyContribution - fixedCash) - setupCash; excludes reserves until spent"
+  },
+  "assumptions": {
+    "taxReserveRate": 0.08,
+    "taxReserveNote": "Provisão ilustrativa sobre receita; não representa alíquota fiscal aplicável. Entidade, atividade, país, regime e tributação sobre lucro precisam de validação profissional.",
+    "refundReserveRate": 0.02,
+    "contingencyRate": 0.15,
+    "founderHourlyValue": 50,
+    "existingAssetsAllocation": 250,
+    "monthlyRamp": [0.25, 0.5, 0.75],
+    "sharedHours": 40,
+    "paymentRateNote": "12% educação/comunidade e 3% B2B são reservas de orçamento, não taxas Hotmart contratadas. Substituir por custos reais, parcelamento e câmbio incluídos.",
+    "cash90Note": "Caixa para zero recebimentos e custos fixos, montagem e giro. Os custos variáveis de vendas são pagos pelo próprio ciclo de venda; atraso superior à reserva de giro exige mais capital. Não cobre constituições internacionais, rodada, licenças setoriais ou estoque físico.",
+    "scope": "Remoto, equipamento e conectividade já disponíveis, sem escritório alugado, 3 linhas ativas no máximo e canais existentes. Agentes de demo são papéis, não empregados operacionais comprovados."
+  },
+  "offers": [
+    {"id":"club","name":"AtlasClub","price":49.9,"directCost":8,"paymentRate":0.12,"coordinationHours":0.15,"billing":"mensal","scope":"Acesso aos conteúdos e atividades expressamente publicados na oferta. Preço de planeamento a confirmar no produto.","limit":"80 membros no cenário maior; custo de media variável limitado por plano; sem promessa de capital social"},
+    {"id":"atelier","name":"Atelier de arranque","price":147,"directCost":25,"paymentRate":0.12,"coordinationHours":0.2,"billing":"venda única","scope":"Oferta confirmada pelo titular: três encontros em 9, 12 e 19/11/2026, materiais e seis cases. 12 meses AtlasClub incluídos.","limit":"Compradores do Atelier com Club incluído não entram simultaneamente como assinantes pagos no modelo. Vendas mensais futuras exigem novas turmas/ofertas reais."},
+    {"id":"media","name":"Media & Growth piloto","price":1500,"directCost":250,"paymentRate":0.03,"coordinationHours":8,"billing":"mensal","scope":"Um canal, até oito peças estáticas, dois roteiros e um relatório; duas rondas de revisão; distribuição só após aprovação","limit":"Vídeo produzido, mídia paga, atendimento diário e canais adicionais têm orçamento próprio"},
+    {"id":"sales","name":"Sales & Service piloto","price":2200,"directCost":400,"paymentRate":0.03,"coordinationHours":12,"billing":"mensal","scope":"Um funil, uma fonte de conhecimento e até 300 conversas textuais assistidas/mês; relatórios e encaminhamento humano","limit":"Sem voz, uso ilimitado ou disponibilidade humana 24/7; excedentes contratados antes do uso"},
+    {"id":"setup","name":"Implantação de fluxo","price":2500,"directCost":500,"paymentRate":0.03,"coordinationHours":18,"billing":"projeto","scope":"Um diagnóstico, um fluxo de baixo risco, uma integração e aceite formal","limit":"Até 18 horas de coordenação mais serviço técnico direto orçado; alterações de escopo por proposta"}
+  ],
+  "costCategories": [
+    {"id":"hosting","name":"Hospedagem e dados","driver":"VPS/serviço gerido partilhado e banco, sem GPU dedicada"},
+    {"id":"baseAI","name":"IA interna e avaliações","driver":"Orçamento para tarefas internas; consumo de entrega está nos custos diretos"},
+    {"id":"software","name":"Ferramentas e colaboração","driver":"Um stack mínimo, licenças existentes reutilizadas onde permitido"},
+    {"id":"security","name":"Backup e observabilidade","driver":"Cópias, logs e alerta; sem contrato SOC"},
+    {"id":"admin","name":"Administração e apoio contabilístico","driver":"Provisão parcial, a cotar conforme entidade e volume"},
+    {"id":"acquisition","name":"Aquisição e experimentação","driver":"Pequenos testes de canal, sem mídia de cliente incluída"},
+    {"id":"review","name":"Revisão e suporte humano contratado","driver":"Reserva base de 4/24/80 h a R$50; esforço incluído na capacidade; peças e implantação compradas estão no custo direto"},
+    {"id":"founderDraw","name":"Remuneração do fundador em caixa","driver":"Provisão de 0/40/80 horas a R$50; tratamento e encargos precisam de enquadramento próprio"}
+  ],
+  "scenarios": [
+    {"id":"bootstrap","name":"Arranque com recursos existentes","fixedCash":{"hosting":180,"baseAI":120,"software":120,"security":80,"admin":350,"acquisition":300,"review":200,"founderDraw":0},"quantities":{"club":10,"atelier":10,"media":1,"sales":0,"setup":0},"founderUnpaidHours":100,"coordinationCapacityHours":104,"setupCash":750,"workingCapital":1000,"expected":{"fixedMonthly":1350,"revenue":3469,"directDelivery":580,"paymentFees":281.28,"taxReserve":277.52,"refundReserve":69.38,"cashOperatingResult":910.82,"economicResult":-4339.18,"cash90":6670,"capacityHours":51.5}},
+    {"id":"pilot","name":"Piloto comercial assistido","fixedCash":{"hosting":250,"baseAI":200,"software":180,"security":120,"admin":500,"acquisition":800,"review":1200,"founderDraw":2000},"quantities":{"club":30,"atelier":20,"media":2,"sales":1,"setup":1},"founderUnpaidHours":60,"coordinationCapacityHours":124,"setupCash":1500,"workingCapital":2500,"expected":{"fixedMonthly":5250,"revenue":12137,"directDelivery":2140,"paymentFees":763.44,"taxReserve":970.96,"refundReserve":242.74,"cashOperatingResult":2769.86,"economicResult":-480.14,"cash90":22712.5,"capacityHours":94.5}},
+    {"id":"traction","name":"Tração com contratos","fixedCash":{"hosting":500,"baseAI":450,"software":300,"security":200,"admin":900,"acquisition":2000,"review":4000,"founderDraw":4000},"quantities":{"club":80,"atelier":30,"media":4,"sales":3,"setup":2},"founderUnpaidHours":20,"coordinationCapacityHours":180,"setupCash":3000,"workingCapital":6000,"expected":{"fixedMonthly":12350,"revenue":26002,"directDelivery":4590,"paymentFees":1536.24,"taxReserve":2080.16,"refundReserve":520.04,"cashOperatingResult":4925.56,"economicResult":3675.56,"cash90":52957.5,"capacityHours":162}}
+  ],
+  "portfolio": [
+    {"id":"education","name":"Education & Communities","wave":1,"status":"Proposta de piloto; oferta AtlasClub relatada pelo titular","model":"Cursos, assinaturas e operação de academias","gate":"Conteúdo entregue, compra e acesso comprovados, suporte definido"},
+    {"id":"media","name":"Media & Growth","wave":1,"status":"Proposta comercial a validar","model":"Setup e produção mensal limitada","gate":"Portfólio aprovado e custo/hora medido"},
+    {"id":"sales","name":"Sales & Customer Operations","wave":1,"status":"Demonstração e piloto planeados","model":"Setup, mensalidade e consumo","gate":"Cliente piloto, acessos, qualidade e escalonamento humano"},
+    {"id":"brands","name":"Marcas digitais / Viva Leve","wave":1,"status":"Candidata citada no documento; operação não auditada","model":"Produtos próprios e margem","gate":"Oferta, direitos, canal e economia unitária verificados"},
+    {"id":"commerce","name":"Comércio digital e afiliados","wave":1,"status":"Planeamento","model":"Margem ou comissão líquida","gate":"Demanda medida, fornecedor, devoluções e CAC"},
+    {"id":"creators","name":"Creator Operations","wave":1,"status":"Planeamento","model":"Produção e revenue share contratual","gate":"Especialista parceiro e direitos sobre conteúdo"},
+    {"id":"solutions","name":"Consultoria e Solutions","wave":1,"status":"Proposta de piloto","model":"Diagnóstico e implantação","gate":"Escopo fechado, demonstração reproduzível e aceite"},
+    {"id":"accounting","name":"Accounting Operations","wave":2,"status":"À procura de parceiro","model":"Operação administrativa para escritórios","gate":"Responsável profissional e limites de atividade definidos"},
+    {"id":"insurance","name":"Insurance Operations","wave":2,"status":"À procura de parceiro","model":"Serviço gerido para corretoras","gate":"Parceiro habilitado, contrato e processo autorizados"},
+    {"id":"realestate","name":"Real Estate Operations","wave":2,"status":"À procura de parceiro","model":"Marketing, atendimento e agenda","gate":"Parceiro e responsabilidade da intermediação definidos"},
+    {"id":"credit","name":"Crédito / Portal.Sematos","wave":2,"status":"Candidato citado no documento; parceria não auditada","model":"Operação comercial contratada","gate":"Instituição/parceiro e enquadramento validados antes de captar dados financeiros"},
+    {"id":"hr","name":"Talent & People Operations","wave":2,"status":"Planeamento","model":"Seleção assistida e onboarding","gate":"Privacidade, critérios verificáveis e decisão humana"},
+    {"id":"travel","name":"Travel & Hospitality","wave":2,"status":"Planeamento","model":"Concierge e operação de reservas","gate":"Fornecedores, contratos e integrações reais"},
+    {"id":"local","name":"Local Business & Franchises","wave":2,"status":"Planeamento","model":"Serviços por estabelecimento","gate":"Um cliente com agenda e SLA medidos"},
+    {"id":"health","name":"Health Administration","wave":3,"status":"Exploração","model":"Agenda e documentação administrativa","gate":"Dados sensíveis, responsabilidade e revisão especializada"},
+    {"id":"legal","name":"Legal Operations","wave":3,"status":"Exploração","model":"Documentação para profissionais","gate":"Responsável habilitado e fronteiras de aconselhamento"},
+    {"id":"procurement","name":"Procurement B2B","wave":3,"status":"Exploração","model":"Pesquisa e acompanhamento de compras","gate":"Mandatos, segregação de aprovação e fornecedores"},
+    {"id":"managedIT","name":"Managed IT & Security","wave":3,"status":"Exploração","model":"Suporte e monitorização geridos","gate":"Equipa responsável, cobertura e resposta a incidentes"}
+  ]
+}
+
