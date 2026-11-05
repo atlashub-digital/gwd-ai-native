@@ -11,7 +11,7 @@ O campus é uma cena WebGL original em Three.js. A galáxia representa uma taxon
 1. Node.js 22 ou superior. Executar `npm ci --ignore-scripts`.
 2. `node build-portal.mjs` prepara frontend, documentação e Worker autocontido.
 3. `npm test` verifica simulações, capacidade e proteção do registo.
-4. `node serve.mjs` abre o preview em `http://127.0.0.1:4178`. O preview usa armazenamento de teste em memória e não é o CRM de produção.
+4. `npm start` abre o preview em `http://127.0.0.1:4178`. O preview usa armazenamento de teste em memória e não é o CRM de produção.
 5. A publicação Sites conserva a identidade e audiência existentes, usa a pasta de release separada e o Worker compilado. O manifesto declara `r2: "BUCKET"`. Nunca publicar `.env`, leads, tokens ou exports administrativos no GitHub.
 
 ## Leads e privacidade
